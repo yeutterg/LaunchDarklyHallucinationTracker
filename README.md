@@ -152,7 +152,8 @@ nano .env  # or use your preferred editor
 Required environment variables in `.env`:
 ```env
 LAUNCHDARKLY_SDK_KEY=sdk-your-key-here
-LAUNCHDARKLY_AI_CONFIG_KEY=your-ai-config-key
+LAUNCHDARKLY_AI_CONFIG_KEY=your-main-ai-config-key
+LAUNCHDARKLY_LLM_JUDGE_KEY=your-llm-as-judge-ai-config-key
 AWS_REGION=us-east-1
 AWS_ACCESS_KEY_ID=your-aws-access-key
 AWS_SECRET_ACCESS_KEY=your-aws-secret-key
