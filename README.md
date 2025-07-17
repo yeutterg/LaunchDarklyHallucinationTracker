@@ -98,6 +98,11 @@ ToggleBankRAG/
 ├── docs/                                       ← Comprehensive documentation
 ├── testing/                                   ← Testing utilities
 ├── requirements.txt                           ← Python dependencies
+├── Dockerfile                                 ← Docker container configuration
+├── docker-compose.yml                         ← Docker Compose orchestration
+├── .dockerignore                              ← Docker build exclusions
+├── run.sh                                     ← Simple Docker runner script
+├── env.example                                ← Environment variables template
 └── README.md                                  ← This file
 ```
 
@@ -121,29 +126,39 @@ ToggleBankRAG/
 - **Account Tiers** - Bronze, Silver, Gold, Platinum, Diamond with requirements
 - **Multi-language Support** - English, Spanish, French, German, Chinese
 
-## 🚀 Quick Start
+## 🚀 Quick Start (Docker - Recommended)
 
 ### **Prerequisites**
-- Python 3.8+
+- Docker and Docker Compose installed
 - AWS Account (Bedrock, Knowledge Base, Guardrails)
 - LaunchDarkly account with AI Configs
 
-### **Installation**
+### **1. Clone and Setup**
 ```bash
 git clone https://github.com/yourusername/ToggleBankRAG.git
 cd ToggleBankRAG
-pip install -r requirements.txt
 ```
 
-### **Environment Setup**
-Create `.env` file:
+### **2. Environment Setup**
+Create `.env` file in the project root:
+```bash
+# Copy the example file
+cp env.example .env
+
+# Edit the .env file with your actual credentials
+nano .env  # or use your preferred editor
+```
+
+Required environment variables in `.env`:
 ```env
 LAUNCHDARKLY_SDK_KEY=sdk-your-key-here
 LAUNCHDARKLY_AI_CONFIG_KEY=your-ai-config-key
 AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=your-aws-access-key
+AWS_SECRET_ACCESS_KEY=your-aws-secret-key
 ```
 
-### **LaunchDarkly AI Config**
+### **3. LaunchDarkly AI Config Setup**
 Set up with strict anti-hallucination prompts:
 ```json
 {
@@ -165,7 +180,7 @@ Set up with strict anti-hallucination prompts:
 }
 ```
 
-### **Custom Metrics Setup**
+### **4. Custom Metrics Setup**
 Create these custom metrics in LaunchDarkly:
 
 1. **Source Fidelity** (`$ld:ai:source-fidelity`)
@@ -177,10 +192,110 @@ Create these custom metrics in LaunchDarkly:
    - Uses the existing hallucinations metric
    - Our custom fact-checker provides the accuracy scores
 
+### **5. Run with Docker**
+
+**Option A: Simple run script (recommended)**
+```bash
+# Make the script executable (first time only)
+chmod +x run.sh
+
+# Run the application
+./run.sh
+```
+
+**Option B: Direct docker-compose**
+```bash
+# Build and run the container
+docker-compose up --build
+
+# Or run in detached mode
+docker-compose up -d --build
+
+# To stop the container
+docker-compose down
+```
+
+### **Alternative: Direct Docker Run**
+```bash
+# Build the image
+docker build -t togglebank-rag .
+
+# Run with environment variables
+docker run -it --env-file .env togglebank-rag
+
+# Or run with interactive shell for debugging
+docker run -it --env-file .env togglebank-rag /bin/bash
+```
+
+## 🐍 Local Development (Alternative)
+
+If you prefer to run locally without Docker:
+
+### **Prerequisites**
+- Python 3.8+
+- AWS Account (Bedrock, Knowledge Base, Guardrails)
+- LaunchDarkly account with AI Configs
+
+### **Installation**
+```bash
+git clone https://github.com/yourusername/ToggleBankRAG.git
+cd ToggleBankRAG
+pip install -r requirements.txt
+```
+
 ### **Run the System**
 ```bash
 python script.py
 ```
+
+## 🐳 Docker Troubleshooting
+
+### **Common Issues**
+
+**Container can't access AWS services:**
+```bash
+# Ensure AWS credentials are properly set in .env
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+AWS_REGION=us-east-1
+```
+
+**LaunchDarkly connection issues:**
+```bash
+# Verify your LaunchDarkly SDK key is correct
+# Check that your AI Config keys exist in LaunchDarkly
+```
+
+**Permission issues:**
+```bash
+# If you get permission errors, run with sudo (Linux/Mac)
+sudo docker-compose up --build
+```
+
+### **Development with Docker**
+
+**Access container shell:**
+```bash
+docker-compose exec hallucination-tracker /bin/bash
+```
+
+**View logs:**
+```bash
+docker-compose logs -f hallucination-tracker
+```
+
+**Rebuild after code changes:**
+```bash
+docker-compose up --build --force-recreate
+```
+
+### **Production Deployment**
+
+For production deployment, consider:
+- Using Docker secrets for sensitive environment variables
+- Setting up proper logging and monitoring
+- Using a reverse proxy (nginx) for web interfaces
+- Implementing health checks
 
 ### **Expected Output**
 ```
@@ -307,7 +422,6 @@ Update your `.env` file:
 ```env
 LAUNCHDARKLY_SDK_KEY=sdk-your-key-here
 LAUNCHDARKLY_AI_CONFIG_KEY=your-main-ai-config-key
-LAUNCHDARKLY_LLM_JUDGE_KEY=llm-as-judge
 AWS_REGION=us-east-1
 ```
 

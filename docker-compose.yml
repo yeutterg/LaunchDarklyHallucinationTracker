@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  hallucination-tracker:
+    build: .
+    container_name: togglebank-rag
+    environment:
+      - LAUNCHDARKLY_SDK_KEY=${LAUNCHDARKLY_SDK_KEY}
+      - LAUNCHDARKLY_AI_CONFIG_KEY=${LAUNCHDARKLY_AI_CONFIG_KEY}
+      - LAUNCHDARKLY_LLM_JUDGE_KEY=${LAUNCHDARKLY_LLM_JUDGE_KEY}
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    volumes:
+      # Mount .env file if you prefer to keep it outside the container
+      - ./.env:/app/.env:ro
+    stdin_open: true
+    tty: true
+    # For interactive use with the chat interface
+    interactive: true 
