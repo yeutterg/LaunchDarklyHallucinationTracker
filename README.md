@@ -189,18 +189,9 @@ Create these custom metrics in LaunchDarkly:
    - Metric name: Relevance
    - Description: "Standard Bedrock guardrail metric"
 
-### **5. Run with Docker**
+### 5. Run 
 
-**Option A: Simple run script (recommended)**
-```bash
-# Make the script executable (first time only)
-chmod +x run.sh
-
-# Run the application
-./run.sh
-```
-
-**Option B: Direct docker-compose**
+**Option A: Direct docker-compose (recommended)**
 ```bash
 # Build and run the container
 docker-compose up --build
@@ -212,7 +203,7 @@ docker-compose up -d --build
 docker-compose down
 ```
 
-### **Alternative: Direct Docker Run**
+**Option B: Direct Docker Run**
 ```bash
 # Build the image
 docker build -t togglebank-rag .
@@ -222,6 +213,15 @@ docker run -it --env-file .env togglebank-rag
 
 # Or run with interactive shell for debugging
 docker run -it --env-file .env togglebank-rag /bin/bash
+```
+
+**Option C: Simple run script**
+```bash
+# Make the script executable (first time only)
+chmod +x run.sh
+
+# Run the application
+./run.sh
 ```
 
 ## 🐍 Local Development (Alternative)
