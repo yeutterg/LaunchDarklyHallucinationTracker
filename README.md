@@ -134,9 +134,9 @@ ToggleBankRAG/
 - LaunchDarkly account with AI Configs
 
 ### **1. Clone and Setup**
+Git clone, then:
 ```bash
-git clone https://github.com/yourusername/ToggleBankRAG.git
-cd ToggleBankRAG
+cd HallucinationTracker
 ```
 
 ### **2. Environment Setup**
@@ -160,26 +160,7 @@ AWS_SECRET_ACCESS_KEY=your-aws-secret-key
 ```
 
 ### **3. LaunchDarkly AI Config Setup**
-Set up with strict anti-hallucination prompts:
-```json
-{
-  "enabled": true,
-  "model": {
-    "name": "us.anthropic.claude-3-haiku-20240307-v1:0",
-    "custom": {
-      "kb_id": "YOUR_KNOWLEDGE_BASE_ID",
-      "gr_id": "YOUR_GUARDRAIL_ID", 
-      "gr_version": "1"
-    }
-  },
-  "messages": [
-    {
-      "role": "system",
-      "content": "You are an AI assistant for ToggleBank. **ACCURACY FIRST**: Only provide information explicitly stated in source material. **Stay Grounded**: Never invent, assume, or extrapolate information not present in the source data."
-    }
-  ]
-}
-```
+Refer to the [AI Config Sample Prompts](#️-ai-config-sample-prompts) below to set up two AI Configs in LaunchDarkly.
 
 ### **4. Custom Metrics Setup**
 Create these custom metrics in LaunchDarkly:
@@ -325,7 +306,16 @@ INFO | Accuracy score: 0.750
 
 ### **Main Generation AI Config**
 
-**Config Key**: `your-main-ai-config-key`
+
+**AI Config Title**: New Bank Demo - Main AI Chatbot
+
+**Model Configuration**:
+- **Provider**: Anthropic
+- **Primary Model**: claude-sonnet-4-20250514 (or similar Sonnet model)
+- **Temperature**: 0.9 
+- **Max Tokens**: 1000
+
+**Config Key**: Copy from LaunchDarkly after creating the config
 
 **System Message Template**:
 ```
@@ -383,7 +373,15 @@ You are a helpful and knowledgeable banking assistant for our financial institut
 
 ### **LLM-as-Judge AI Config**
 
-**Config Key**: `llm-as-judge`
+**AI Config Title**: New Bank Demo - LLM as Judge
+
+**Model Configuration**:
+- **Provider**: Anthropic
+- **Primary Model**: claude-sonnet-4-20250514 (or similar Sonnet model)
+- **Temperature**: 0.9 (for detailed analysis)
+- **Max Tokens**: 1000
+
+**Config Key**: Copy from LaunchDarkly after creating the config
 
 **System Message Template**:
 ```
@@ -411,20 +409,7 @@ Instructions:
 Response format: {"factual_claims": [...], "accurate_claims": [...], "inaccurate_claims": [...], "accuracy_score": 0.95}
 ```
 
-**Model Configuration**:
-- **Primary Model**: `us.anthropic.claude-sonnet-4-20250514-v1:0`
-- **Alternative**: `us.anthropic.claude-3-5-sonnet-20241022-v2:0`
-- **Temperature**: 0.9 (for detailed analysis)
-- **Max Tokens**: 1000
 
-### **Environment Variables**
-
-Update your `.env` file:
-```env
-LAUNCHDARKLY_SDK_KEY=sdk-your-key-here
-LAUNCHDARKLY_AI_CONFIG_KEY=your-main-ai-config-key
-AWS_REGION=us-east-1
-```
 
 ### **Context Setup Example**
 
