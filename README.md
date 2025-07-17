@@ -165,14 +165,29 @@ Refer to the [AI Config Sample Prompts](#️-ai-config-sample-prompts) below to 
 ### **4. Custom Metrics Setup**
 Create these custom metrics in LaunchDarkly:
 
-1. **Source Fidelity** (`$ld:ai:source-fidelity`)
+1. **Source Fidelity**
    - Event kind: Custom
+   - Key: `$ld:ai:source-fidelity`
    - What to measure: Value/Size → Average
+   - Unit of measure: %
+   - Metric name: Source Fidelity
    - Description: "Measures how closely an LLM response follows the exact wording/style of source material"
 
-2. **Factual Accuracy** (route to existing `$ld:ai:hallucinations`)
-   - Uses the existing hallucinations metric
-   - Our custom fact-checker provides the accuracy scores
+2. **Factual Accuracy**
+   - Event kind: Custom
+   - Key: `$ld:ai:hallucinations`
+   - What to measure: Value/Size → Average
+   - Unit of measure: %
+   - Metric name: Factual accuracy
+   - Description: "Measures the accuracy of AI generations, score provided by our hallucination tracker"
+
+3. **Relevance**
+   - Event kind: Custom
+   - Key: `$ld:ai:relevance`
+   - What to measure: Value/Size → Average
+   - Unit of measure: %
+   - Metric name: Relevance
+   - Description: "Standard Bedrock guardrail metric"
 
 ### **5. Run with Docker**
 
