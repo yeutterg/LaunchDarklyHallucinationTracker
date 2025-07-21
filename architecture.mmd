@@ -1,0 +1,41 @@
+graph TD
+    A[User Query] --> B[LaunchDarkly AI Config]
+    B --> C[Enhanced RAG Retrieval]
+    C --> D[AWS Bedrock LLM]
+    D --> E[Bedrock Guardrails]
+    E --> F[Custom Factual Accuracy Checker]
+    F --> G[Multi-Metric Response]
+    G --> H[LaunchDarkly Metrics Dashboard]
+    
+    %% Data Sources
+    I[40 Banking Policies] --> C
+    J[68 Customer Profiles] --> C
+    K[AWS Knowledge Base] --> D
+    
+    %% AI Configs
+    L[Main AI Config<br/>Strict Anti-Hallucination Prompts] --> B
+    M[LLM-as-Judge Config<br/>Fact Verification] --> F
+    
+    %% Metrics
+    E --> N[Source Fidelity Metric]
+    E --> O[Relevance Metric]
+    F --> P[Factual Accuracy Metric]
+    
+    N --> G
+    O --> G
+    P --> G
+    
+    %% Styling
+    classDef userInput fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef aiConfig fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef bedrock fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef custom fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef metrics fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef data fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    
+    class A userInput
+    class B,L,M aiConfig
+    class D,E,K bedrock
+    class F,C custom
+    class G,H,N,O,P metrics
+    class I,J data 

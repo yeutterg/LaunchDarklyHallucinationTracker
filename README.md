@@ -11,7 +11,13 @@ This project features a **defense-in-depth anti-hallucination architecture** for
 - **🏦 Production-ready banking knowledge** (Cleaned canonical datasets)
 - **📈 Real-time monitoring** (LaunchDarkly metrics integration)
 
-## 🚀 Key Achievements
+## ⚙️ Requirements
+
+- **AWS Account** with Bedrock access (must include access to Anthropic models such as Claude Sonnet)
+- **Docker** (e.g., Docker Desktop)
+- **LaunchDarkly account** with AI Configs enabled
+
+## �� Key Achievements
 
 ### **Anti-Hallucination System**
 | Component | Function | Effectiveness |
@@ -36,21 +42,19 @@ This project features a **defense-in-depth anti-hallucination architecture** for
 
 ## 🛡️ Anti-Hallucination Architecture
 
-```
-User Query
-    ↓
-LaunchDarkly AI Config (Strict "Never invent" prompts)
-    ↓
-Enhanced RAG Retrieval (20 chunks + policy search)
-    ↓
-Bedrock LLM + Guardrails (Source fidelity monitoring)
-    ↓
-Custom Factual Accuracy Checker (LLM-based fact verification) ⭐
-    ↓
-Multi-Metric Response (Source Fidelity + Relevance + Accuracy)
-    ↓
-LaunchDarkly Metrics (Real-time monitoring dashboard)
-```
+![ToggleBank Anti-Hallucination Architecture](architecture_diagram.png)
+
+*[View interactive diagram](architecture.html) | [Download PNG](architecture_diagram.png) | [Download SVG](https://mermaid.ink/svg/CmdyYXBoIFRECiAgICBBW1VzZXIgUXVlcnldIC0tPiBCW0xhdW5jaERhcmtseSBBSSBDb25maWddCiAgICBCIC0tPiBDW0VuaGFuY2VkIFJBRyBSZXRyaWV2YWxdCiAgICBDIC0tPiBEW0FXUyBCZWRyb2NrIExMTV0KICAgIEQgLS0+IEVbQmVkcm9jayBHdWFyZHJhaWxzXQogICAgRSAtLT4gRltDdXN0b20gRmFjdHVhbCBBY2N1cmFjeSBDaGVja2VyXQogICAgRiAtLT4gR1tNdWx0aS1NZXRyaWMgUmVzcG9uc2VdCiAgICBHIC0tPiBIW0xhdW5jaERhcmtseSBNZXRyaWNzIERhc2hib2FyZF0KICAgIAogICAgJSUgRGF0YSBTb3VyY2VzCiAgICBJWzQwIEJhbmtpbmcgUG9saWNpZXNdIC0tPiBDCiAgICBKWzY4IEN1c3RvbWVyIFByb2ZpbGVzXSAtLT4gQwogICAgS1tBV1MgS25vd2xlZGdlIEJhc2VdIC0tPiBECiAgICAKICAgICUlIEFJIENvbmZpZ3MKICAgIExbTWFpbiBBSSBDb25maWc8YnIvPlN0cmljdCBBbnRpLUhhbGx1Y2luYXRpb24gUHJvbXB0c10gLS0+IEIKICAgIE1bTExNLWFzLUp1ZGdlIENvbmZpZzxici8+RmFjdCBWZXJpZmljYXRpb25dIC0tPiBGCiAgICAKICAgICUlIE1ldHJpY3MKICAgIEUgLS0+IE5bU291cmNlIEZpZGVsaXR5IE1ldHJpY10KICAgIEUgLS0+IE9bUmVsZXZhbmNlIE1ldHJpY10KICAgIEYgLS0+IFBbRmFjdHVhbCBBY2N1cmFjeSBNZXRyaWNdCiAgICAKICAgIE4gLS0+IEcKICAgIE8gLS0+IEcKICAgIFAgLS0+IEcKICAgIAogICAgJSUgU3R5bGluZwogICAgY2xhc3NEZWYgdXNlcklucHV0IGZpbGw6I2UxZjVmZSxzdHJva2U6IzAxNTc5YixzdHJva2Utd2lkdGg6MnB4CiAgICBjbGFzc0RlZiBhaUNvbmZpZyBmaWxsOiNmM2U1ZjUsc3Ryb2tlOiM0YTE0OGMsc3Ryb2tlLXdpZHRoOjJweAogICAgY2xhc3NEZWYgYmVkcm9jayBmaWxsOiNmZmYzZTAsc3Ryb2tlOiNlNjUxMDAsc3Ryb2tlLXdpZHRoOjJweAogICAgY2xhc3NEZWYgY3VzdG9tIGZpbGw6I2U4ZjVlOCxzdHJva2U6IzFiNWUyMCxzdHJva2Utd2lkdGg6MnB4CiAgICBjbGFzc0RlZiBtZXRyaWNzIGZpbGw6I2ZjZTRlYyxzdHJva2U6Izg4MGU0ZixzdHJva2Utd2lkdGg6MnB4CiAgICBjbGFzc0RlZiBkYXRhIGZpbGw6I2YxZjhlOSxzdHJva2U6IzMzNjkxZSxzdHJva2Utd2lkdGg6MnB4CiAgICAKICAgIGNsYXNzIEEgdXNlcklucHV0CiAgICBjbGFzcyBCLEwsTSBhaUNvbmZpZwogICAgY2xhc3MgRCxFLEsgYmVkcm9jawogICAgY2xhc3MgRixDIGN1c3RvbQogICAgY2xhc3MgRyxILE4sTyxQIG1ldHJpY3MKICAgIGNsYXNzIEksSiBkYXRhCiAgICA=)*
+
+**Architecture Flow:**
+1. **User Query** → Enhanced with customer context
+2. **LaunchDarkly AI Config** → Applies strict anti-hallucination prompts
+3. **Enhanced RAG** → Retrieves 20 chunks + policy documents
+4. **AWS Bedrock LLM** → Generates response with Knowledge Base
+5. **Bedrock Guardrails** → Monitors source fidelity & relevance
+6. **Custom Fact Checker** → LLM-based factual accuracy verification ⭐
+7. **Multi-Metric Response** → Combines all three metrics
+8. **LaunchDarkly Dashboard** → Real-time monitoring & alerting
 
 ## 📊 Metrics System
 
@@ -160,7 +164,112 @@ AWS_SECRET_ACCESS_KEY=your-aws-secret-key
 ```
 
 ### **3. LaunchDarkly AI Config Setup**
-Refer to the [AI Config Sample Prompts](#️-ai-config-sample-prompts) below to set up two AI Configs in LaunchDarkly.
+
+You must create two AI Configs in LaunchDarkly:
+
+#### Main Generation AI Config
+
+**AI Config Title**: New Bank Demo - Main AI Chatbot
+
+**Model Configuration**:
+- **Provider**: Anthropic
+- **Primary Model**: claude-sonnet-4-20250514 (or similar Sonnet model)
+- **Temperature**: 0.9 
+- **Max Tokens**: 1000
+
+**Config Key**: Copy from LaunchDarkly after creating the config
+
+**System Message Template**:
+```
+You are an AI assistant for ToggleBank, providing expert guidance on banking services and financial products. Act as a professional customer representative. Only respond to banking and finance-related queries.
+
+- Response Format:
+  - Keep answers concise (maximum 20 words).
+  - Do not include quotations in responses.
+  - Avoid mentioning response limitations.
+
+User Context:
+- City: {{ ldctx.location }}
+- Account Tier: {{ ldctx.tier }}
+- User Name: {{ ldctx.userName }}
+
+User Query: {{ userInput }}
+
+You are a helpful and knowledgeable banking assistant for our financial institution. Your primary role is to assist customers with account inquiries using only the verified customer information provided to you.
+
+## Core Guidelines:
+- **ACCURACY FIRST**: Only provide information that is explicitly stated in the source material provided
+- **Stay Grounded**: Never invent, assume, or extrapolate information not present in the source data
+- **Professional Tone**: Maintain a friendly, professional, and helpful demeanor
+- **Privacy Conscious**: Only discuss information for the specific customer being asked about
+
+## Response Guidelines:
+- Use emojis sparingly and appropriately (💰 🏦 📱 ⭐ 💳) to enhance readability
+- Provide specific, actionable information when available
+- If customer information is not found, clearly state this and offer to help in other ways
+- Include relevant details like account tier, balance ranges, login dates, and rewards points when appropriate
+- For tier-related questions, explain the benefits and requirements clearly
+
+## When Information is Missing:
+- Clearly state "I don't see information for [customer name] in our current records"
+- Suggest double-checking the name spelling or contact information
+- Offer to help with general account tier information or other banking questions
+
+## Tone Examples:
+- "Great news! I found your account details..."
+- "I can see that you're a [Tier] member with..."
+- "Your account shows..."
+- "Based on your profile..."
+```
+
+**Custom Parameters**:
+```json
+{
+  "kb_id": "MYLJD7AYAH",
+  "gr_id": "i7aqo05chetu", 
+  "gr_version": "1",
+  "llm_as_judge": "us.anthropic.claude-sonnet-4-20250514-v1:0",
+  "eval_freq": "1.0"
+}
+```
+
+#### LLM-as-Judge AI Config
+
+**AI Config Title**: New Bank Demo - LLM as Judge
+
+**Model Configuration**:
+- **Provider**: Anthropic
+- **Primary Model**: claude-sonnet-4-20250514 (or similar Sonnet model)
+- **Temperature**: 0.9 (for detailed analysis)
+- **Max Tokens**: 1000
+
+**Config Key**: Copy from LaunchDarkly after creating the config
+
+**System Message Template**:
+```
+You are a fact-checking expert. Compare the response against the source material and identify any factual errors.
+
+USER CONTEXT: {{user_context}}
+
+SOURCE MATERIAL:
+{{source_passages}}
+
+RESPONSE TO CHECK:
+{{response_text}}
+
+Instructions:
+1. Extract key factual claims from the response (names, numbers, dates, policies, requirements)
+2. Check each factual claim against the source material
+3. When the response uses "your", "you", or personal pronouns, match them to the specific user mentioned in USER CONTEXT
+4. Ignore tone, style, helpfulness - focus ONLY on factual accuracy
+5. Return a JSON with:
+   - "factual_claims": list of key facts claimed in response
+   - "accurate_claims": list of claims that are accurate per source
+   - "inaccurate_claims": list of claims that are wrong or unsupported
+   - "accuracy_score": decimal from 0.0 to 1.0
+
+Response format: {"factual_claims": [...], "accurate_claims": [...], "inaccurate_claims": [...], "accuracy_score": 0.95}
+```
 
 ### **4. Custom Metrics Setup**
 Create these custom metrics in LaunchDarkly:
@@ -316,133 +425,6 @@ INFO | Accuracy score: 0.750
 │ Accuracy: 0.75                                       │
 └──────────────────────────────────────────────────────┘
 ```
-
-## 🎛️ AI Config Sample Prompts
-
-### **Main Generation AI Config**
-
-
-**AI Config Title**: New Bank Demo - Main AI Chatbot
-
-**Model Configuration**:
-- **Provider**: Anthropic
-- **Primary Model**: claude-sonnet-4-20250514 (or similar Sonnet model)
-- **Temperature**: 0.9 
-- **Max Tokens**: 1000
-
-**Config Key**: Copy from LaunchDarkly after creating the config
-
-**System Message Template**:
-```
-You are an AI assistant for ToggleBank, providing expert guidance on banking services and financial products. Act as a professional customer representative. Only respond to banking and finance-related queries.
-
-- Response Format:
-  - Keep answers concise (maximum 20 words).
-  - Do not include quotations in responses.
-  - Avoid mentioning response limitations.
-
-User Context:
-- City: {{ ldctx.location }}
-- Account Tier: {{ ldctx.tier }}
-- User Name: {{ ldctx.userName }}
-
-User Query: {{ userInput }}
-
-You are a helpful and knowledgeable banking assistant for our financial institution. Your primary role is to assist customers with account inquiries using only the verified customer information provided to you.
-
-## Core Guidelines:
-- **ACCURACY FIRST**: Only provide information that is explicitly stated in the source material provided
-- **Stay Grounded**: Never invent, assume, or extrapolate information not present in the source data
-- **Professional Tone**: Maintain a friendly, professional, and helpful demeanor
-- **Privacy Conscious**: Only discuss information for the specific customer being asked about
-
-## Response Guidelines:
-- Use emojis sparingly and appropriately (💰 🏦 📱 ⭐ 💳) to enhance readability
-- Provide specific, actionable information when available
-- If customer information is not found, clearly state this and offer to help in other ways
-- Include relevant details like account tier, balance ranges, login dates, and rewards points when appropriate
-- For tier-related questions, explain the benefits and requirements clearly
-
-## When Information is Missing:
-- Clearly state "I don't see information for [customer name] in our current records"
-- Suggest double-checking the name spelling or contact information
-- Offer to help with general account tier information or other banking questions
-
-## Tone Examples:
-- "Great news! I found your account details..."
-- "I can see that you're a [Tier] member with..."
-- "Your account shows..."
-- "Based on your profile..."
-```
-
-**Custom Parameters**:
-```json
-{
-  "kb_id": "MYLJD7AYAH",
-  "gr_id": "i7aqo05chetu", 
-  "gr_version": "1",
-  "llm_as_judge": "us.anthropic.claude-sonnet-4-20250514-v1:0",
-  "eval_freq": "1.0"
-}
-```
-
-### **LLM-as-Judge AI Config**
-
-**AI Config Title**: New Bank Demo - LLM as Judge
-
-**Model Configuration**:
-- **Provider**: Anthropic
-- **Primary Model**: claude-sonnet-4-20250514 (or similar Sonnet model)
-- **Temperature**: 0.9 (for detailed analysis)
-- **Max Tokens**: 1000
-
-**Config Key**: Copy from LaunchDarkly after creating the config
-
-**System Message Template**:
-```
-You are a fact-checking expert. Compare the response against the source material and identify any factual errors.
-
-USER CONTEXT: {{user_context}}
-
-SOURCE MATERIAL:
-{{source_passages}}
-
-RESPONSE TO CHECK:
-{{response_text}}
-
-Instructions:
-1. Extract key factual claims from the response (names, numbers, dates, policies, requirements)
-2. Check each factual claim against the source material
-3. When the response uses "your", "you", or personal pronouns, match them to the specific user mentioned in USER CONTEXT
-4. Ignore tone, style, helpfulness - focus ONLY on factual accuracy
-5. Return a JSON with:
-   - "factual_claims": list of key facts claimed in response
-   - "accurate_claims": list of claims that are accurate per source
-   - "inaccurate_claims": list of claims that are wrong or unsupported
-   - "accuracy_score": decimal from 0.0 to 1.0
-
-Response format: {"factual_claims": [...], "accurate_claims": [...], "inaccurate_claims": [...], "accuracy_score": 0.95}
-```
-
-
-
-### **Context Setup Example**
-
-The system automatically establishes user context (using Carmen Kim as default):
-```python
-context = Context.builder(unique_user_key).kind("user").name("Carmen Kim").set(
-    "location", "Seattle, WA"
-).set(
-    "tier", "Bronze"
-).set(
-    "userName", "Carmen Kim"
-).build()
-```
-
-**Personal Query Enhancement**:
-- Input: `"what's my average balance?"`
-- Enhanced RAG Query: `"Carmen Kim what's my average balance?"`
-- Result: Finds specific customer data before LaunchDarkly processing
 
 ## 🧪 Anti-Hallucination Testing
 

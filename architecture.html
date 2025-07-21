@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToggleBank Anti-Hallucination Architecture</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .mermaid {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .legend h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .legend-item {
+            display: inline-block;
+            margin: 5px 15px;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ToggleBank Anti-Hallucination Architecture</h1>
+        
+        <div class="mermaid">
+graph TD
+    A[User Query] --> B[LaunchDarkly AI Config]
+    B --> C[Enhanced RAG Retrieval]
+    C --> D[AWS Bedrock LLM]
+    D --> E[Bedrock Guardrails]
+    E --> F[Custom Factual Accuracy Checker]
+    F --> G[Multi-Metric Response]
+    G --> H[LaunchDarkly Metrics Dashboard]
+    
+    %% Data Sources
+    I[40 Banking Policies] --> C
+    J[68 Customer Profiles] --> C
+    K[AWS Knowledge Base] --> D
+    
+    %% AI Configs
+    L[Main AI Config<br/>Strict Anti-Hallucination Prompts] --> B
+    M[LLM-as-Judge Config<br/>Fact Verification] --> F
+    
+    %% Metrics
+    E --> N[Source Fidelity Metric]
+    E --> O[Relevance Metric]
+    F --> P[Factual Accuracy Metric]
+    
+    N --> G
+    O --> G
+    P --> G
+    
+    %% Styling
+    classDef userInput fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef aiConfig fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef bedrock fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef custom fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef metrics fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef data fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    
+    class A userInput
+    class B,L,M aiConfig
+    class D,E,K bedrock
+    class F,C custom
+    class G,H,N,O,P metrics
+    class I,J data
+        </div>
+        
+        <div class="legend">
+            <h3>Architecture Components</h3>
+            <div class="legend-item" style="background-color: #e1f5fe; border: 2px solid #01579b;">User Input</div>
+            <div class="legend-item" style="background-color: #f3e5f5; border: 2px solid #4a148c;">AI Configs</div>
+            <div class="legend-item" style="background-color: #fff3e0; border: 2px solid #e65100;">AWS Bedrock</div>
+            <div class="legend-item" style="background-color: #e8f5e8; border: 2px solid #1b5e20;">Custom Components</div>
+            <div class="legend-item" style="background-color: #fce4ec; border: 2px solid #880e4f;">Metrics</div>
+            <div class="legend-item" style="background-color: #f1f8e9; border: 2px solid #33691e;">Data Sources</div>
+        </div>
+        
+        <div class="legend">
+            <h3>Architecture Flow</h3>
+            <ol>
+                <li><strong>User Query</strong> → Enhanced with customer context</li>
+                <li><strong>LaunchDarkly AI Config</strong> → Applies strict anti-hallucination prompts</li>
+                <li><strong>Enhanced RAG</strong> → Retrieves 20 chunks + policy documents</li>
+                <li><strong>AWS Bedrock LLM</strong> → Generates response with Knowledge Base</li>
+                <li><strong>Bedrock Guardrails</strong> → Monitors source fidelity & relevance</li>
+                <li><strong>Custom Fact Checker</strong> → LLM-based factual accuracy verification ⭐</li>
+                <li><strong>Multi-Metric Response</strong> → Combines all three metrics</li>
+                <li><strong>LaunchDarkly Dashboard</strong> → Real-time monitoring & alerting</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+    </script>
+</body>
+</html> 
