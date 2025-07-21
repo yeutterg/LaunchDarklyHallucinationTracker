@@ -177,6 +177,8 @@ You must create two AI Configs in LaunchDarkly:
 - **Temperature**: 0.9 
 - **Max Tokens**: 1000
 
+**Targeting**: Switch to the Targeting tab and toggle the switch to On. Change the default rule to serve the AI config instead of disabled.
+
 **Config Key**: Copy from LaunchDarkly after creating the config
 
 **System Message Template**:
@@ -242,6 +244,8 @@ You are a helpful and knowledgeable banking assistant for our financial institut
 - **Primary Model**: claude-sonnet-4-20250514 (or similar Sonnet model)
 - **Temperature**: 0.9 (for detailed analysis)
 - **Max Tokens**: 1000
+
+**Targeting**: Switch to the Targeting tab and toggle the switch to On. Change the default rule to serve the AI config instead of disabled.
 
 **Config Key**: Copy from LaunchDarkly after creating the config
 
