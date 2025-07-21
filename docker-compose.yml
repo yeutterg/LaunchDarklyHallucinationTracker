@@ -15,6 +15,4 @@ services:
       # Mount .env file if you prefer to keep it outside the container
       - ./.env:/app/.env:ro
     stdin_open: true
-    tty: true
-    # For interactive use with the chat interface
-    interactive: true 
+    tty: true 

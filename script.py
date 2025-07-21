@@ -118,6 +118,16 @@ class SimpleMessage:
 # graceful Ctrl-C
 signal.signal(signal.SIGINT, lambda *_: sys.exit("\n👋  bye!"))
 
+def list_ai_configs(ai_client):
+    """List all available AI Configs for debugging"""
+    try:
+        print("🔍 Debug: Attempting to list all AI Configs...")
+        # Note: This is a simplified approach - you might need to use the LaunchDarkly API directly
+        print("   Note: AI Config listing requires direct API access")
+        print("   Please check your LaunchDarkly dashboard for available AI Configs")
+    except Exception as e:
+        print(f"❌ Error listing AI Configs: {e}")
+
 def check_factual_accuracy(source_passages: str, response_text: str, generator_model_id: str, custom_params: dict, context: Context) -> float:
     """
     Check factual accuracy by extracting and comparing key facts
@@ -225,13 +235,47 @@ def main() -> None:
         messages=[]
     )
 
+    # Debug: Show connection info
+    print(f"🔍 Debug: LaunchDarkly SDK Key: {LD_SDK[:10]}...")
+    print(f"🔍 Debug: AI Config Key: {LD_KEY}")
+    print(f"🔍 Debug: Context: {context}")
+    
+    # Try to list available AI Configs
+    list_ai_configs(ai_client)
+    
     # Get initial config to extract static parameters (KB_ID, GR_ID, etc.)
-    initial_cfg, _ = ai_client.config(LD_KEY, context, default_cfg, {})
+    try:
+        initial_cfg, _ = ai_client.config(LD_KEY, context, default_cfg, {})
+        print(f"🔍 Debug: Config retrieval successful")
+    except Exception as e:
+        print(f"❌ Error: Failed to retrieve AI Config: {e}")
+        print(f"   Please check:")
+        print(f"   1. Your LaunchDarkly SDK key is correct")
+        print(f"   2. The AI Config key '{LD_KEY}' exists in LaunchDarkly")
+        print(f"   3. The AI Config is properly configured")
+        sys.exit(1)
+    
+    # Debug: Check if config was retrieved successfully
+    if initial_cfg is None:
+        print(f"❌ Error: Could not retrieve AI Config with key: {LD_KEY}")
+        print(f"   Please check:")
+        print(f"   1. Your LaunchDarkly SDK key is correct")
+        print(f"   2. The AI Config key '{LD_KEY}' exists in LaunchDarkly")
+        print(f"   3. The AI Config is properly configured")
+        sys.exit(1)
     
     # Get configuration values from LaunchDarkly AI config custom parameters
     config_dict = initial_cfg.to_dict()
+    print(f"🔍 Debug: Retrieved config: {config_dict}")
+    
     model_config = config_dict.get('model', {})
+    if not model_config:
+        print(f"❌ Error: No 'model' section found in AI Config")
+        print(f"   Config structure: {config_dict}")
+        sys.exit(1)
+        
     custom_params = model_config.get('custom', {})
+    print(f"🔍 Debug: Custom params: {custom_params}")
     
 
     

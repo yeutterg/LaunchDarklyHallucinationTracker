@@ -13,9 +13,9 @@ This project features a **defense-in-depth anti-hallucination architecture** for
 
 ## ⚙️ Requirements
 
-- **AWS Account** with Bedrock access (must include access to Anthropic models such as Claude Sonnet)
-- **Docker** (e.g., Docker Desktop)
-- **LaunchDarkly account** with AI Configs enabled
+- **AWS Account** with [Bedrock](https://aws.amazon.com/bedrock/) access (must enable access to Anthropic models such as Claude Sonnet)
+- **Docker** (e.g., [Docker Desktop](https://docs.docker.com/desktop/setup/install/mac-install/))
+- **[LaunchDarkly](https://launchdarkly.com/) account** with AI Configs enabled
 
 ## �� Key Achievements
 
