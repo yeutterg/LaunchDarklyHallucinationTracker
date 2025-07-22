@@ -11,7 +11,13 @@ This project features a **defense-in-depth anti-hallucination architecture** for
 - **🏦 Production-ready banking knowledge** (Cleaned canonical datasets)
 - **📈 Real-time monitoring** (LaunchDarkly metrics integration)
 
-## 🚀 Key Achievements
+## ⚙️ Requirements
+
+- **AWS Account** with [Bedrock](https://aws.amazon.com/bedrock/) access (must enable access to Anthropic models such as Claude Sonnet)
+- **Docker** (e.g., [Docker Desktop](https://docs.docker.com/desktop/setup/install/mac-install/))
+- **[LaunchDarkly](https://launchdarkly.com/) account** with AI Configs enabled
+
+## �� Key Achievements
 
 ### **Anti-Hallucination System**
 | Component | Function | Effectiveness |
@@ -36,21 +42,19 @@ This project features a **defense-in-depth anti-hallucination architecture** for
 
 ## 🛡️ Anti-Hallucination Architecture
 
-```
-User Query
-    ↓
-LaunchDarkly AI Config (Strict "Never invent" prompts)
-    ↓
-Enhanced RAG Retrieval (20 chunks + policy search)
-    ↓
-Bedrock LLM + Guardrails (Source fidelity monitoring)
-    ↓
-Custom Factual Accuracy Checker (LLM-based fact verification) ⭐
-    ↓
-Multi-Metric Response (Source Fidelity + Relevance + Accuracy)
-    ↓
-LaunchDarkly Metrics (Real-time monitoring dashboard)
-```
+![ToggleBank Anti-Hallucination Architecture](architecture_diagram.png)
+
+*[View interactive diagram](architecture.html) | [Download PNG](architecture_diagram.png) | [Download SVG](https://mermaid.ink/svg/CmdyYXBoIFRECiAgICBBW1VzZXIgUXVlcnldIC0tPiBCW0xhdW5jaERhcmtseSBBSSBDb25maWddCiAgICBCIC0tPiBDW0VuaGFuY2VkIFJBRyBSZXRyaWV2YWxdCiAgICBDIC0tPiBEW0FXUyBCZWRyb2NrIExMTV0KICAgIEQgLS0+IEVbQmVkcm9jayBHdWFyZHJhaWxzXQogICAgRSAtLT4gRltDdXN0b20gRmFjdHVhbCBBY2N1cmFjeSBDaGVja2VyXQogICAgRiAtLT4gR1tNdWx0aS1NZXRyaWMgUmVzcG9uc2VdCiAgICBHIC0tPiBIW0xhdW5jaERhcmtseSBNZXRyaWNzIERhc2hib2FyZF0KICAgIAogICAgJSUgRGF0YSBTb3VyY2VzCiAgICBJWzQwIEJhbmtpbmcgUG9saWNpZXNdIC0tPiBDCiAgICBKWzY4IEN1c3RvbWVyIFByb2ZpbGVzXSAtLT4gQwogICAgS1tBV1MgS25vd2xlZGdlIEJhc2VdIC0tPiBECiAgICAKICAgICUlIEFJIENvbmZpZ3MKICAgIExbTWFpbiBBSSBDb25maWc8YnIvPlN0cmljdCBBbnRpLUhhbGx1Y2luYXRpb24gUHJvbXB0c10gLS0+IEIKICAgIE1bTExNLWFzLUp1ZGdlIENvbmZpZzxici8+RmFjdCBWZXJpZmljYXRpb25dIC0tPiBGCiAgICAKICAgICUlIE1ldHJpY3MKICAgIEUgLS0+IE5bU291cmNlIEZpZGVsaXR5IE1ldHJpY10KICAgIEUgLS0+IE9bUmVsZXZhbmNlIE1ldHJpY10KICAgIEYgLS0+IFBbRmFjdHVhbCBBY2N1cmFjeSBNZXRyaWNdCiAgICAKICAgIE4gLS0+IEcKICAgIE8gLS0+IEcKICAgIFAgLS0+IEcKICAgIAogICAgJSUgU3R5bGluZwogICAgY2xhc3NEZWYgdXNlcklucHV0IGZpbGw6I2UxZjVmZSxzdHJva2U6IzAxNTc5YixzdHJva2Utd2lkdGg6MnB4CiAgICBjbGFzc0RlZiBhaUNvbmZpZyBmaWxsOiNmM2U1ZjUsc3Ryb2tlOiM0YTE0OGMsc3Ryb2tlLXdpZHRoOjJweAogICAgY2xhc3NEZWYgYmVkcm9jayBmaWxsOiNmZmYzZTAsc3Ryb2tlOiNlNjUxMDAsc3Ryb2tlLXdpZHRoOjJweAogICAgY2xhc3NEZWYgY3VzdG9tIGZpbGw6I2U4ZjVlOCxzdHJva2U6IzFiNWUyMCxzdHJva2Utd2lkdGg6MnB4CiAgICBjbGFzc0RlZiBtZXRyaWNzIGZpbGw6I2ZjZTRlYyxzdHJva2U6Izg4MGU0ZixzdHJva2Utd2lkdGg6MnB4CiAgICBjbGFzc0RlZiBkYXRhIGZpbGw6I2YxZjhlOSxzdHJva2U6IzMzNjkxZSxzdHJva2Utd2lkdGg6MnB4CiAgICAKICAgIGNsYXNzIEEgdXNlcklucHV0CiAgICBjbGFzcyBCLEwsTSBhaUNvbmZpZwogICAgY2xhc3MgRCxFLEsgYmVkcm9jawogICAgY2xhc3MgRixDIGN1c3RvbQogICAgY2xhc3MgRyxILE4sTyxQIG1ldHJpY3MKICAgIGNsYXNzIEksSiBkYXRhCiAgICA=)*
+
+**Architecture Flow:**
+1. **User Query** → Enhanced with customer context
+2. **LaunchDarkly AI Config** → Applies strict anti-hallucination prompts
+3. **Enhanced RAG** → Retrieves 20 chunks + policy documents
+4. **AWS Bedrock LLM** → Generates response with Knowledge Base
+5. **Bedrock Guardrails** → Monitors source fidelity & relevance
+6. **Custom Fact Checker** → LLM-based factual accuracy verification ⭐
+7. **Multi-Metric Response** → Combines all three metrics
+8. **LaunchDarkly Dashboard** → Real-time monitoring & alerting
 
 ## 📊 Metrics System
 
@@ -98,6 +102,11 @@ ToggleBankRAG/
 ├── docs/                                       ← Comprehensive documentation
 ├── testing/                                   ← Testing utilities
 ├── requirements.txt                           ← Python dependencies
+├── Dockerfile                                 ← Docker container configuration
+├── docker-compose.yml                         ← Docker Compose orchestration
+├── .dockerignore                              ← Docker build exclusions
+├── run.sh                                     ← Simple Docker runner script
+├── env.example                                ← Environment variables template
 └── README.md                                  ← This file
 ```
 
@@ -121,95 +130,56 @@ ToggleBankRAG/
 - **Account Tiers** - Bronze, Silver, Gold, Platinum, Diamond with requirements
 - **Multi-language Support** - English, Spanish, French, German, Chinese
 
-## 🚀 Quick Start
+## 🚀 Quick Start (Docker - Recommended)
 
 ### **Prerequisites**
-- Python 3.8+
+- Docker and Docker Compose installed
 - AWS Account (Bedrock, Knowledge Base, Guardrails)
 - LaunchDarkly account with AI Configs
 
-### **Installation**
+### **1. Clone and Setup**
+Git clone, then:
 ```bash
-git clone https://github.com/yourusername/ToggleBankRAG.git
-cd ToggleBankRAG
-pip install -r requirements.txt
+cd HallucinationTracker
 ```
 
-### **Environment Setup**
-Create `.env` file:
+### **2. Environment Setup**
+Create `.env` file in the project root:
+```bash
+# Copy the example file
+cp env.example .env
+
+# Edit the .env file with your actual credentials
+nano .env  # or use your preferred editor
+```
+
+Required environment variables in `.env`:
 ```env
 LAUNCHDARKLY_SDK_KEY=sdk-your-key-here
-LAUNCHDARKLY_AI_CONFIG_KEY=your-ai-config-key
+LAUNCHDARKLY_AI_CONFIG_KEY=your-main-ai-config-key
+LAUNCHDARKLY_LLM_JUDGE_KEY=your-llm-as-judge-ai-config-key
 AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=your-aws-access-key
+AWS_SECRET_ACCESS_KEY=your-aws-secret-key
 ```
 
-### **LaunchDarkly AI Config**
-Set up with strict anti-hallucination prompts:
-```json
-{
-  "enabled": true,
-  "model": {
-    "name": "us.anthropic.claude-3-haiku-20240307-v1:0",
-    "custom": {
-      "kb_id": "YOUR_KNOWLEDGE_BASE_ID",
-      "gr_id": "YOUR_GUARDRAIL_ID", 
-      "gr_version": "1"
-    }
-  },
-  "messages": [
-    {
-      "role": "system",
-      "content": "You are an AI assistant for ToggleBank. **ACCURACY FIRST**: Only provide information explicitly stated in source material. **Stay Grounded**: Never invent, assume, or extrapolate information not present in the source data."
-    }
-  ]
-}
-```
+### **3. LaunchDarkly AI Config Setup**
 
-### **Custom Metrics Setup**
-Create these custom metrics in LaunchDarkly:
+You must create two AI Configs in LaunchDarkly:
 
-1. **Source Fidelity** (`$ld:ai:source-fidelity`)
-   - Event kind: Custom
-   - What to measure: Value/Size → Average
-   - Description: "Measures how closely an LLM response follows the exact wording/style of source material"
+#### Main Generation AI Config
 
-2. **Factual Accuracy** (route to existing `$ld:ai:hallucinations`)
-   - Uses the existing hallucinations metric
-   - Our custom fact-checker provides the accuracy scores
+**AI Config Title**: New Bank Demo - Main AI Chatbot
 
-### **Run the System**
-```bash
-python script.py
-```
+**Model Configuration**:
+- **Provider**: Anthropic
+- **Primary Model**: claude-sonnet-4-20250514 (or similar Sonnet model)
+- **Temperature**: 0.9 
+- **Max Tokens**: 1000
 
-### **Expected Output**
-```
-🧑  You: what does bronze tier entitle a customer to?
+**Targeting**: Switch to the Targeting tab and toggle the switch to On. Change the default rule to serve the AI config instead of disabled.
 
-┌─────────────────────────────────────────┐
-│                ASSISTANT                │
-├─────────────────────────────────────────┤
-│ Bronze tier is the default account tier │
-│ with no minimum balance requirement...  │
-└─────────────────────────────────────────┘
-
-INFO | Source fidelity metric: 88.0%
-INFO | Relevance metric: 100.0%  
-INFO | Accuracy score: 0.750
-
-┌──────────────────────────────────────────────────────┐
-│                      METRICS                         │
-├──────────────────────────────────────────────────────┤
-│ Source Fidelity: 0.88 | Relevance: 1.00 |           │
-│ Accuracy: 0.75                                       │
-└──────────────────────────────────────────────────────┘
-```
-
-## 🎛️ AI Config Sample Prompts
-
-### **Main Generation AI Config**
-
-**Config Key**: `your-main-ai-config-key`
+**Config Key**: Copy from LaunchDarkly after creating the config
 
 **System Message Template**:
 ```
@@ -265,9 +235,19 @@ You are a helpful and knowledgeable banking assistant for our financial institut
 }
 ```
 
-### **LLM-as-Judge AI Config**
+#### LLM-as-Judge AI Config
 
-**Config Key**: `llm-as-judge`
+**AI Config Title**: New Bank Demo - LLM as Judge
+
+**Model Configuration**:
+- **Provider**: Anthropic
+- **Primary Model**: claude-sonnet-4-20250514 (or similar Sonnet model)
+- **Temperature**: 0.9 (for detailed analysis)
+- **Max Tokens**: 1000
+
+**Targeting**: Switch to the Targeting tab and toggle the switch to On. Change the default rule to serve the AI config instead of disabled.
+
+**Config Key**: Copy from LaunchDarkly after creating the config
 
 **System Message Template**:
 ```
@@ -295,39 +275,160 @@ Instructions:
 Response format: {"factual_claims": [...], "accurate_claims": [...], "inaccurate_claims": [...], "accuracy_score": 0.95}
 ```
 
-**Model Configuration**:
-- **Primary Model**: `us.anthropic.claude-sonnet-4-20250514-v1:0`
-- **Alternative**: `us.anthropic.claude-3-5-sonnet-20241022-v2:0`
-- **Temperature**: 0.9 (for detailed analysis)
-- **Max Tokens**: 1000
+### **4. Custom Metrics Setup**
+Create these custom metrics in LaunchDarkly:
 
-### **Environment Variables**
+1. **Source Fidelity**
+   - Event kind: Custom
+   - Key: `$ld:ai:source-fidelity`
+   - What to measure: Value/Size → Average
+   - Unit of measure: %
+   - Metric name: Source Fidelity
+   - Description: "Measures how closely an LLM response follows the exact wording/style of source material"
 
-Update your `.env` file:
-```env
-LAUNCHDARKLY_SDK_KEY=sdk-your-key-here
-LAUNCHDARKLY_AI_CONFIG_KEY=your-main-ai-config-key
-LAUNCHDARKLY_LLM_JUDGE_KEY=llm-as-judge
+2. **Factual Accuracy**
+   - Event kind: Custom
+   - Key: `$ld:ai:hallucinations`
+   - What to measure: Value/Size → Average
+   - Unit of measure: %
+   - Metric name: Factual accuracy
+   - Description: "Measures the accuracy of AI generations, score provided by our hallucination tracker"
+
+3. **Relevance**
+   - Event kind: Custom
+   - Key: `$ld:ai:relevance`
+   - What to measure: Value/Size → Average
+   - Unit of measure: %
+   - Metric name: Relevance
+   - Description: "Standard Bedrock guardrail metric"
+
+### 5. Run 
+
+**Option A: Direct docker-compose (recommended)**
+```bash
+# Build and run the container
+docker-compose up --build
+
+# Or run in detached mode
+docker-compose up -d --build
+
+# To stop the container
+docker-compose down
+```
+
+**Option B: Direct Docker Run**
+```bash
+# Build the image
+docker build -t togglebank-rag .
+
+# Run with environment variables
+docker run -it --env-file .env togglebank-rag
+
+# Or run with interactive shell for debugging
+docker run -it --env-file .env togglebank-rag /bin/bash
+```
+
+**Option C: Simple run script**
+```bash
+# Make the script executable (first time only)
+chmod +x run.sh
+
+# Run the application
+./run.sh
+```
+
+## 🐍 Local Development (Alternative)
+
+If you prefer to run locally without Docker:
+
+### **Prerequisites**
+- Python 3.8+
+- AWS Account (Bedrock, Knowledge Base, Guardrails)
+- LaunchDarkly account with AI Configs
+
+### **Installation**
+```bash
+git clone https://github.com/yourusername/ToggleBankRAG.git
+cd ToggleBankRAG
+pip install -r requirements.txt
+```
+
+### **Run the System**
+```bash
+python script.py
+```
+
+## 🐳 Docker Troubleshooting
+
+### **Common Issues**
+
+**Container can't access AWS services:**
+```bash
+# Ensure AWS credentials are properly set in .env
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
 AWS_REGION=us-east-1
 ```
 
-### **Context Setup Example**
-
-The system automatically establishes user context (using Carmen Kim as default):
-```python
-context = Context.builder(unique_user_key).kind("user").name("Carmen Kim").set(
-    "location", "Seattle, WA"
-).set(
-    "tier", "Bronze"
-).set(
-    "userName", "Carmen Kim"
-).build()
+**LaunchDarkly connection issues:**
+```bash
+# Verify your LaunchDarkly SDK key is correct
+# Check that your AI Config keys exist in LaunchDarkly
 ```
 
-**Personal Query Enhancement**:
-- Input: `"what's my average balance?"`
-- Enhanced RAG Query: `"Carmen Kim what's my average balance?"`
-- Result: Finds specific customer data before LaunchDarkly processing
+**Permission issues:**
+```bash
+# If you get permission errors, run with sudo (Linux/Mac)
+sudo docker-compose up --build
+```
+
+### **Development with Docker**
+
+**Access container shell:**
+```bash
+docker-compose exec hallucination-tracker /bin/bash
+```
+
+**View logs:**
+```bash
+docker-compose logs -f hallucination-tracker
+```
+
+**Rebuild after code changes:**
+```bash
+docker-compose up --build --force-recreate
+```
+
+### **Production Deployment**
+
+For production deployment, consider:
+- Using Docker secrets for sensitive environment variables
+- Setting up proper logging and monitoring
+- Using a reverse proxy (nginx) for web interfaces
+- Implementing health checks
+
+### **Expected Output**
+```
+🧑  You: what does bronze tier entitle a customer to?
+
+┌─────────────────────────────────────────┐
+│                ASSISTANT                │
+├─────────────────────────────────────────┤
+│ Bronze tier is the default account tier │
+│ with no minimum balance requirement...  │
+└─────────────────────────────────────────┘
+
+INFO | Source fidelity metric: 88.0%
+INFO | Relevance metric: 100.0%  
+INFO | Accuracy score: 0.750
+
+┌──────────────────────────────────────────────────────┐
+│                      METRICS                         │
+├──────────────────────────────────────────────────────┤
+│ Source Fidelity: 0.88 | Relevance: 1.00 |           │
+│ Accuracy: 0.75                                       │
+└──────────────────────────────────────────────────────┘
+```
 
 ## 🧪 Anti-Hallucination Testing
 
