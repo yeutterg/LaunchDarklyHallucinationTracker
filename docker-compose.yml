@@ -1,9 +1,11 @@
 version: '3.8'
 
 services:
-  hallucination-tracker:
+  api-server:
     build: .
-    container_name: togglebank-rag
+    container_name: togglebank-api
+    ports:
+      - "8000:8000"
     environment:
       - LAUNCHDARKLY_SDK_KEY=${LAUNCHDARKLY_SDK_KEY}
       - LAUNCHDARKLY_AI_CONFIG_KEY=${LAUNCHDARKLY_AI_CONFIG_KEY}
@@ -11,8 +13,10 @@ services:
       - AWS_REGION=${AWS_REGION:-us-east-1}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - API_KEY=${API_KEY:-your-api-key-here}
+      - PORT=8000
+      - HOST=0.0.0.0
     volumes:
-      # Mount .env file if you prefer to keep it outside the container
       - ./.env:/app/.env:ro
-    stdin_open: true
-    tty: true 
+    command: ["python", "api_server.py"]
+    restart: unless-stopped 
