@@ -13,10 +13,16 @@ services:
       - AWS_REGION=${AWS_REGION:-us-east-1}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - API_KEY=${API_KEY:-your-api-key-here}
+      - API_KEY=${launchdarkly-RAG}
       - PORT=8000
       - HOST=0.0.0.0
     volumes:
       - ./.env:/app/.env:ro
-    command: ["python", "api_server.py"]
-    restart: unless-stopped 
+    command: ["uvicorn", "api_server:app", "--host", "0.0.0.0", "--port", "8000"]
+    restart: unless-stopped
+    networks:
+      - togglenet
+
+networks:
+  togglenet:
+    external: true 

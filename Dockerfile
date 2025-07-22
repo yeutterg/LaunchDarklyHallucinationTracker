@@ -23,12 +23,12 @@ RUN useradd --create-home --shell /bin/bash app && \
     chown -R app:app /app
 USER app
 
-# Expose port for FastAPI server
-EXPOSE 8000
+# Expose port for Streamlit (if using web interface)
+EXPOSE 8501
 
 # Set environment variables
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
-# Default command to run the API server
-CMD ["python", "api_server.py"] 
+# Default command to run the script
+CMD ["python", "script.py"] 
